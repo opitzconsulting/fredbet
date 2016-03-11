@@ -1,0 +1,34 @@
+fredbet:
+  image: 'hamster40/fredbet:latest'
+  environment:
+    - JDBC_PASSWORD=fred
+    - 'JDBC_URL=jdbc:mariadb://mariadb:3306/fredbetdb'
+    - JDBC_USERNAME=fred
+    - spring.profiles.active=test
+  links:
+    - graylog
+    - mariadb
+  ports:
+    - '80:8080'
+  tags:
+    - app
+graylog:
+  image: 'graylog2/allinone:latest'
+  ports:
+    - '9000:9000'
+    - '12202:12202'
+  tags:
+    - graylog
+mariadb:
+  image: 'mariadb:10.1.11'
+  environment:
+    - MYSQL_DATABASE=fredbetdb
+    - MYSQL_PASSWORD=fred
+    - MYSQL_ROOT_PASSWORD=secred
+    - MYSQL_USER=fred
+  ports:
+    - '3306:3306'
+  tags:
+    - db
+  volumes:
+    - /data/db
